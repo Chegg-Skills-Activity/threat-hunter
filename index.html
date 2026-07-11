@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Threat Hunter Unit</title>
+<link rel="stylesheet" href="assets/css/chegg-style.css">
+</head>
+<body>
+<div class="grid-bg"></div><div class="scanlines"></div><div class="particles" id="particles"></div><div class="confetti-container" id="confetti"></div>
+<div id="top-bar"><div class="top-logo" style="display:flex;align-items:center;gap:12px;"><img src="assets/Chegg_Logo_Orange_RGB-01.png" style="width:70px;height:auto;min-width:70px;"><span>THREAT HUNTER UNIT</span></div><div class="top-stats"><div class="top-stat"><span class="top-stat-label">Rank</span><span class="top-stat-value rank" id="top-rank">ROOKIE</span></div><div class="top-stat"><span class="top-stat-label">Score</span><span class="top-stat-value" id="top-score">0</span></div><div class="top-stat"><span class="top-stat-label">Cases</span><span class="top-stat-value" id="top-cases">0/5</span></div><div class="top-stat"><span class="top-stat-label">Progress</span><div class="top-progress-track"><div class="top-progress-fill" id="top-progress"></div></div></div></div></div>
+<div id="bottom-bar"><div class="bottom-skills" id="bottom-skills"><span class="skill-pill" data-skill="collection">Threat Data Collection</span><span class="skill-pill" data-skill="domain">Domain Analysis</span><span class="skill-pill" data-skill="ip">IP Reputation</span><span class="skill-pill" data-skill="osint">OSINT</span><span class="skill-pill" data-skill="exposure">Exposure Monitoring</span><span class="skill-pill" data-skill="intel">Threat Intelligence</span></div><div class="bottom-mission">Current Mission: <span id="current-mission">Accept first case</span></div></div>
+<div id="game-container">
+
+<!-- OPENING SCREEN -->
+<div class="center-screen active" id="opening-screen">
+  <div style="margin-bottom:30px;"><div style="font-family:'Rajdhani',sans-serif;font-size:2.5rem;font-weight:700;color:var(--neon-blue);text-shadow:0 0 30px var(--neon-blue);letter-spacing:4px;">THREAT HUNTER UNIT</div><div style="color:#888;font-size:1rem;margin-top:8px;font-style:italic;">Become the analyst before the attackers do.</div></div>
+  <div class="boot-text" id="open-line-1">ACCESSING NETWORK...</div>
+  <div class="boot-text hidden" id="open-line-2">AUTHENTICATING ANALYST...</div>
+  <div class="progress-bar hidden" id="open-progress"><div class="progress-fill" id="open-fill"></div></div>
+  <div class="boot-text hidden" id="open-line-3">WELCOME ROOKIE</div>
+  <div class="pulse-red hidden" id="open-alert">4 ACTIVE INCIDENTS DETECTED</div>
+  <button class="cyber-btn hidden" id="open-btn" onclick="startGame()">[ ACCEPT FIRST CASE ]</button>
+  <div style="margin-top:40px;display:flex;gap:15px;justify-content:center;">
+    <button class="cyber-btn" style="margin-top:0;font-size:0.8rem;padding:8px 20px;" onclick="loadGame()">[ LOAD PROGRESS ]</button>
+    <button class="cyber-btn red" style="margin-top:0;font-size:0.8rem;padding:8px 20px;" onclick="resetGame()">[ RESET ]</button>
+  </div>
+</div>
+
+<!-- LEVEL 1 -->
+<div class="screen" id="level1-screen">
+  <div class="case-header"><div class="case-number">CASE FILE #001</div><div class="case-title">"The Salary Trap"</div><div class="case-subtitle">A suspicious message has reached employee inboxes. Investigate before damage occurs.</div></div>
+  <div style="text-align:center;"><div class="warning-badge"><span>⚠</span><span>POSSIBLE PHISHING EVENT</span></div></div>
+  <div class="holo-card suspicious">
+    <div class="email-field"><span class="email-label">FROM:</span><span class="email-value suspicious-text">HR Team &lt;hr@company-payroll-update.com&gt;</span></div>
+    <div class="email-field"><span class="email-label">SUBJECT:</span><span class="email-value">URGENT: Salary Revision Effective Today</span></div>
+    <div class="email-field"><span class="email-label">ATTACHMENT:</span><span class="email-value danger-text">salary_revision.pdf.exe</span></div>
+    <div class="email-field"><span class="email-label">TIME:</span><span class="email-value">08:12 AM</span></div>
+    <div class="email-body">"Dear Employee,<br><br>Your updated salary structure is attached.<br>Review immediately to avoid payroll delays."</div>
+  </div>
+  <div class="indicators">
+    <div class="indicator"><span class="indicator-label">Sender Verified</span><span class="indicator-value bad">❌ No</span></div>
+    <div class="indicator"><span class="indicator-label">Domain Reputation</span><span class="indicator-value warn">Unknown</span></div>
+    <div class="indicator"><span class="indicator-label">Attachment Type</span><span class="indicator-value bad">Executable</span></div>
+    <div class="indicator"><span class="indicator-label">Urgency Level</span><span class="indicator-value warn">High</span></div>
+  </div>
+  <div class="question-section"><div class="question-text" id="l1-question"></div>
+    <div class="options-grid">
+      <button class="option-btn" onclick="handleL1('A')"><span class="option-letter">[A]</span> Open attachment immediately</button>
+      <button class="option-btn" onclick="handleL1('B')"><span class="option-letter">[B]</span> Ignore message</button>
+      <button class="option-btn" onclick="handleL1('C')"><span class="option-letter">[C]</span> Investigate sender/domain reputation</button>
+      <button class="option-btn" onclick="handleL1('D')"><span class="option-letter">[D]</span> Forward email to others</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="l1-terminal"><div class="terminal-window" id="l1-terminal-window"><div class="terminal-line"><span class="terminal-prompt">threat-hunter@unit:~$</span> <span>initiate_threat_intel_search()</span></div></div></div>
+
+<div class="center-screen" id="l1-success">
+  <div class="points-popup">+20 ANALYST POINTS</div>
+  <div class="badge-unlock"><span class="badge-icon">🕵</span><div class="badge-text"><div class="badge-label">NEW SKILL ACQUIRED</div><div class="badge-name">THREAT DATA COLLECTION</div></div></div>
+  <div class="badge-unlock" style="border-color:var(--neon-blue);background:rgba(0,240,255,0.05);"><span class="badge-icon">🛡️</span><div class="badge-text"><div class="badge-label" style="color:var(--neon-blue)">BADGE UNLOCKED</div><div class="badge-name" style="color:var(--neon-blue)">JUNIOR INVESTIGATOR</div></div></div>
+  <div class="result-narration" style="color:var(--neon-green);">Great analysts collect evidence before action.</div>
+  <button class="cyber-btn green" onclick="startLevel(2)">[ NEXT CASE ]</button>
+</div>
+
+<div class="center-screen" id="l1-wrong-a"><div class="result-title compromised">SYSTEM COMPROMISED</div><div class="result-points" style="color:var(--neon-red)">-10 Analyst Points</div><div class="result-narration">Attackers exploit urgency. Evidence should be collected first.</div><button class="cyber-btn red" onclick="retryLevel(1)">[ RETRY ]</button></div>
+<div class="center-screen" id="l1-wrong-b"><div class="result-title ignored">THREAT IGNORED</div><div class="result-points" style="color:#ffaa00">0 Points</div><div class="result-narration">Potential breach undetected. A real analyst never looks away.</div><button class="cyber-btn" onclick="retryLevel(1)">[ RETRY ]</button></div>
+<div class="center-screen" id="l1-wrong-d"><div class="result-title spread">POSSIBLE SPREAD RISK</div><div class="result-points" style="color:#ff6b6b">-5 Analyst Points</div><div class="result-narration">Forwarding suspicious content amplifies the threat. Contain first.</div><button class="cyber-btn" onclick="retryLevel(1)">[ RETRY ]</button></div>
+
+<!-- LEVEL 2 -->
+<div class="screen" id="level2-screen">
+  <div class="case-header"><div class="case-number">CASE FILE #002</div><div class="case-title">"Unknown Visitor"</div><div class="case-subtitle">Unusual login activity detected on the network perimeter.</div></div>
+  <div style="text-align:center;"><div class="warning-badge" style="border-color:#ffaa00;color:#ffaa00;background:rgba(255,170,0,0.1);"><span>🔒</span><span>BRUTE FORCE ALERT</span></div></div>
+  <div class="holo-card" style="border-color:rgba(255,170,0,0.3);">
+    <div class="email-field"><span class="email-label">ALERT TYPE:</span><span class="email-value warn">Failed Login Attempts</span></div>
+    <div class="email-field"><span class="email-label">ATTEMPT COUNT:</span><span class="email-value bad">5 failed logins</span></div>
+    <div class="email-field"><span class="email-label">SOURCE IP:</span><span class="email-value suspicious-text">185.220.101.42</span></div>
+    <div class="email-field"><span class="email-label">LOCATION:</span><span class="email-value warn">Unknown / Masked</span></div>
+    <div class="email-field"><span class="email-label">TIME:</span><span class="email-value">14:37 UTC</span></div>
+    <div class="email-body" style="border-left-color:#ffaa00;">Intrusion Detection System flagged repeated authentication failures from external IP. No successful logins recorded.</div>
+  </div>
+  <div class="indicators">
+    <div class="indicator"><span class="indicator-label">IP Reputation</span><span class="indicator-value warn">Unknown</span></div>
+    <div class="indicator"><span class="indicator-label">Failed Attempts</span><span class="indicator-value bad">5</span></div>
+    <div class="indicator"><span class="indicator-label">Geolocation</span><span class="indicator-value warn">Masked</span></div>
+    <div class="indicator"><span class="indicator-label">Risk Level</span><span class="indicator-value warn">Elevated</span></div>
+  </div>
+  <div class="question-section"><div class="question-text" id="l2-question"></div>
+    <div class="options-grid">
+      <button class="option-btn" onclick="handleL2('A')"><span class="option-letter">[A]</span> Block immediately</button>
+      <button class="option-btn" onclick="handleL2('B')"><span class="option-letter">[B]</span> Search IP reputation</button>
+      <button class="option-btn" onclick="handleL2('C')"><span class="option-letter">[C]</span> Shut down company systems</button>
+      <button class="option-btn" onclick="handleL2('D')"><span class="option-letter">[D]</span> Ignore</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="l2-terminal"><div class="terminal-window" id="l2-terminal-window"><div class="terminal-line"><span class="terminal-prompt">threat-hunter@unit:~$</span> <span>query_ip_reputation("185.220.101.42")</span></div></div></div>
+
+<div class="center-screen" id="l2-success">
+  <div class="points-popup">+25 ANALYST POINTS</div>
+  <div class="badge-unlock"><span class="badge-icon">🌐</span><div class="badge-text"><div class="badge-label">NEW SKILL ACQUIRED</div><div class="badge-name">IP REPUTATION ANALYSIS</div></div></div>
+  <div class="badge-unlock" style="border-color:var(--neon-blue);background:rgba(0,240,255,0.05);"><span class="badge-icon">🛡️</span><div class="badge-text"><div class="badge-label" style="color:var(--neon-blue)">BADGE UNLOCKED</div><div class="badge-name" style="color:var(--neon-blue)">SOC TRAINEE</div></div></div>
+  <div class="result-narration" style="color:var(--neon-green);">Threat intelligence includes IP reputation, geolocation, and previous attack activity.</div>
+  <button class="cyber-btn green" onclick="startLevel(3)">[ NEXT CASE ]</button>
+</div>
+
+<div class="center-screen" id="l2-wrong-a"><div class="result-title compromised">FALSE POSITIVE RISK</div><div class="result-points" style="color:var(--neon-red)">-10 Points</div><div class="result-narration">Blocking without intelligence can harm legitimate traffic. Verify first.</div><button class="cyber-btn red" onclick="retryLevel(2)">[ RETRY ]</button></div>
+<div class="center-screen" id="l2-wrong-c"><div class="result-title compromised">OVERREACTION</div><div class="result-points" style="color:var(--neon-red)">-15 Points</div><div class="result-narration">Shutting down systems causes more damage than the threat itself. Stay calm.</div><button class="cyber-btn red" onclick="retryLevel(2)">[ RETRY ]</button></div>
+<div class="center-screen" id="l2-wrong-d"><div class="result-title ignored">THREAT IGNORED</div><div class="result-points" style="color:#ffaa00">0 Points</div><div class="result-narration">Brute force attacks escalate. Ignoring them invites compromise.</div><button class="cyber-btn" onclick="retryLevel(2)">[ RETRY ]</button></div>
+
+<!-- LEVEL 3 -->
+<div class="screen" id="level3-screen">
+  <div class="case-header"><div class="case-number">CASE FILE #003</div><div class="case-title">"The Oversharing Employee"</div><div class="case-subtitle">Social media intelligence suggests information leakage.</div></div>
+  <div style="text-align:center;"><div class="warning-badge" style="border-color:var(--neon-purple);color:var(--neon-purple);background:rgba(184,41,221,0.1);"><span>👁️</span><span>OSINT ALERT</span></div></div>
+  <div style="display:flex;justify-content:center;margin:20px 0;">
+    <div class="social-card">
+      <div class="social-header"><div class="social-avatar">👤</div><div><div class="social-name">Alex Dev</div><div class="social-handle">@alexdev_sec</div></div></div>
+      <div class="social-content">"Excited! Deploying our new Apache server tonight 🚀<br><br>Finally moving from nginx. Big infra upgrade for the team!"</div>
+      <div class="social-time">Posted 2 hours ago · Public</div>
+    </div>
+  </div>
+  <div class="indicators">
+    <div class="indicator"><span class="indicator-label">Post Visibility</span><span class="indicator-value bad">Public</span></div>
+    <div class="indicator"><span class="indicator-label">Tech Details</span><span class="indicator-value warn">Server type revealed</span></div>
+    <div class="indicator"><span class="indicator-label">Timing</span><span class="indicator-value warn">Pre-deployment</span></div>
+    <div class="indicator"><span class="indicator-label">OSINT Risk</span><span class="indicator-value warn">Medium</span></div>
+  </div>
+  <div class="question-section"><div class="question-text" id="l3-question"></div>
+    <div class="options-grid">
+      <button class="option-btn" onclick="handleL3('A')"><span class="option-letter">[A]</span> No risk — it's just a post</button>
+      <button class="option-btn" onclick="handleL3('B')"><span class="option-letter">[B]</span> Attackers gain useful information</button>
+      <button class="option-btn" onclick="handleL3('C')"><span class="option-letter">[C]</span> Like the post to show support</button>
+      <button class="option-btn" onclick="handleL3('D')"><span class="option-letter">[D]</span> Share it on company page</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="l3-reveal">
+  <div class="case-header"><div class="case-number" style="font-size:1.8rem;">OSINT ANALYSIS</div><div class="case-subtitle">What attackers can extract from public posts</div></div>
+  <div style="text-align:center;margin:20px 0;">
+    <div class="holo-card" style="max-width:500px;margin:0 auto;">
+      <div style="text-align:left;position:relative;z-index:2;">
+        <div style="color:var(--neon-purple);font-size:0.85rem;margin-bottom:15px;text-transform:uppercase;letter-spacing:2px;">ATTACKER RECONNAISSANCE</div>
+        <div style="color:#ccc;font-size:0.9rem;line-height:2;">
+          ✓ Server type: <span style="color:var(--neon-red)">Apache</span><br>
+          ✓ Migration from: <span style="color:var(--neon-red)">nginx</span><br>
+          ✓ Deployment window: <span style="color:var(--neon-red)">Tonight</span><br>
+          ✓ Team size hint: <span style="color:var(--neon-red)">"team" mentioned</span><br>
+          ✓ Account linked to: <span style="color:var(--neon-red)">Real identity</span><br><br>
+          <span style="color:var(--neon-green)">Combined with other OSINT sources (GitHub, job listings, forums), attackers build a complete target profile.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:30px;"><button class="cyber-btn green" onclick="showL3Success()">[ CONTINUE ]</button></div>
+</div>
+
+<div class="center-screen" id="l3-success">
+  <div class="points-popup">+25 ANALYST POINTS</div>
+  <div class="badge-unlock"><span class="badge-icon">👁️</span><div class="badge-text"><div class="badge-label">NEW SKILL ACQUIRED</div><div class="badge-name">OSINT DETECTION</div></div></div>
+  <div class="badge-unlock" style="border-color:var(--neon-blue);background:rgba(0,240,255,0.05);"><span class="badge-icon">🛡️</span><div class="badge-text"><div class="badge-label" style="color:var(--neon-blue)">BADGE UNLOCKED</div><div class="badge-name" style="color:var(--neon-blue)">THREAT INVESTIGATOR</div></div></div>
+  <div class="result-narration" style="color:var(--neon-green);">Attackers collect public clues. OSINT sources: social media, GitHub, public forums, job listings.</div>
+  <button class="cyber-btn green" onclick="startLevel(4)">[ NEXT CASE ]</button>
+</div>
+
+<div class="center-screen" id="l3-wrong-a"><div class="result-title ignored">UNDERESTIMATED RISK</div><div class="result-points" style="color:#ffaa00">0 Points</div><div class="result-narration">Every public detail is a puzzle piece for attackers. Nothing is "just a post."</div><button class="cyber-btn" onclick="retryLevel(3)">[ RETRY ]</button></div>
+<div class="center-screen" id="l3-wrong-c"><div class="result-title spread">AMPLIFYING EXPOSURE</div><div class="result-points" style="color:#ff6b6b">-5 Points</div><div class="result-narration">Engaging with leaked information draws more attention to it. Report, don't promote.</div><button class="cyber-btn" onclick="retryLevel(3)">[ RETRY ]</button></div>
+<div class="center-screen" id="l3-wrong-d"><div class="result-title compromised">WIDENING THE BLAST RADIUS</div><div class="result-points" style="color:var(--neon-red)">-10 Points</div><div class="result-narration">Sharing sensitive posts company-wide exposes more people to social engineering.</div><button class="cyber-btn red" onclick="retryLevel(3)">[ RETRY ]</button></div>
+
+<!-- LEVEL 4 -->
+<div class="screen" id="level4-screen">
+  <div class="case-header"><div class="case-number">CASE FILE #004</div><div class="case-title">"The Internet Exposure"</div><div class="case-subtitle">A critical vulnerability has been disclosed. Understand the threat landscape.</div></div>
+  <div style="text-align:center;"><div class="warning-badge" style="border-color:var(--neon-purple);color:var(--neon-purple);background:rgba(184,41,221,0.1);"><span>🌐</span><span>CRITICAL VULNERABILITY</span></div></div>
+  <div class="holo-card" style="border-color:rgba(184,41,221,0.3);">
+    <div class="email-field"><span class="email-label">VULNERABILITY:</span><span class="email-value" style="color:var(--neon-purple)">Apache Log4j (CVE-2021-44228)</span></div>
+    <div class="email-field"><span class="email-label">SEVERITY:</span><span class="email-value bad">CRITICAL — Remote Code Execution</span></div>
+    <div class="email-field"><span class="email-label">PATCH STATUS:</span><span class="email-value warn">Available but not universally applied</span></div>
+    <div class="email-field"><span class="email-label">ATTACK COMPLEXITY:</span><span class="email-value bad">Low — Easily exploitable</span></div>
+    <div class="email-body" style="border-left-color:var(--neon-purple);">A new vulnerability allows attackers to execute arbitrary code on affected systems. The question is not "can they exploit it?" but "how many systems are exposed?"</div>
+  </div>
+  <div class="question-section"><div class="question-text" id="l4-question"></div>
+    <div class="options-grid">
+      <button class="option-btn" onclick="handleL4('A')"><span class="option-letter">[A]</span> To learn coding techniques</button>
+      <button class="option-btn" onclick="handleL4('B')"><span class="option-letter">[B]</span> To identify exposed systems</button>
+      <button class="option-btn" onclick="handleL4('C')"><span class="option-letter">[C]</span> To improve their own servers</button>
+      <button class="option-btn" onclick="handleL4('D')"><span class="option-letter">[D]</span> No reason — just curiosity</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="l4-scan">
+  <div class="case-header"><div class="case-number" style="font-size:1.8rem;">INTERNET EXPOSURE SCAN</div><div class="case-subtitle">Simulating attacker reconnaissance across the internet</div></div>
+  <div class="scan-interface">
+    <div class="scan-label">Scanning internet exposure...</div>
+    <div class="scan-counter" id="scan-counter">0</div>
+    <div class="scan-label">Potentially exposed systems detected</div>
+    <div class="scan-status" id="scan-status">Initializing scan probes...</div>
+  </div>
+  <div style="text-align:center;margin-top:30px;"><button class="cyber-btn green hidden" id="l4-continue-btn" onclick="showL4Reveal()">[ VIEW RESULTS ]</button></div>
+</div>
+
+<div class="screen" id="l4-reveal">
+  <div class="case-header"><div class="case-number" style="font-size:2rem;color:var(--neon-purple);">SCAN COMPLETE</div></div>
+  <div style="text-align:center;margin:20px 0;">
+    <div style="font-family:'Rajdhani',sans-serif;font-size:3rem;font-weight:700;color:var(--neon-purple);text-shadow:0 0 40px var(--neon-purple);">145,000+</div>
+    <div style="color:#888;font-size:1rem;margin-top:10px;">Potentially exposed systems found</div>
+  </div>
+  <div class="holo-card" style="max-width:500px;margin:20px auto;border-color:rgba(0,255,136,0.3);">
+    <div style="text-align:center;position:relative;z-index:2;padding:20px;">
+      <div style="font-size:1.1rem;color:#fff;margin-bottom:15px;font-style:italic;">"Hackers rarely attack blindly. They collect data first."</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:1.8rem;font-weight:700;color:var(--neon-green);text-shadow:0 0 30px var(--neon-green);margin:20px 0;">THIS IS THREAT INTELLIGENCE</div>
+      <div style="color:#888;font-size:0.85rem;line-height:1.8;">Sources:<br><span style="color:var(--neon-blue)">• Exposure monitoring</span><br><span style="color:var(--neon-blue)">• Internet scanning</span><br><span style="color:var(--neon-blue)">• Vulnerability intelligence</span></div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:30px;"><button class="cyber-btn green" onclick="showL4Success()">[ CONTINUE ]</button></div>
+</div>
+
+<div class="center-screen" id="l4-success">
+  <div class="points-popup">+30 ANALYST POINTS</div>
+  <div class="badge-unlock"><span class="badge-icon">🌐</span><div class="badge-text"><div class="badge-label">NEW SKILL ACQUIRED</div><div class="badge-name">THREAT INTELLIGENCE</div></div></div>
+  <div class="badge-unlock" style="border-color:var(--neon-yellow);background:rgba(255,204,0,0.05);"><span class="badge-icon">🏆</span><div class="badge-text"><div class="badge-label" style="color:var(--neon-yellow)">BADGE UNLOCKED</div><div class="badge-name" style="color:var(--neon-yellow)">ELITE HUNTER</div></div></div>
+  <div class="result-narration" style="color:var(--neon-green);">Before attacking, hackers map the battlefield. Exposure data is their reconnaissance.</div>
+  <button class="cyber-btn green" onclick="startLevel(5)">[ FINAL CHALLENGE ]</button>
+</div>
+
+<div class="center-screen" id="l4-wrong-a"><div class="result-title ignored">MISSED THE POINT</div><div class="result-points" style="color:#ffaa00">0 Points</div><div class="result-narration">Vulnerabilities are not learning material for attackers. They are weapons.</div><button class="cyber-btn" onclick="retryLevel(4)">[ RETRY ]</button></div>
+<div class="center-screen" id="l4-wrong-c"><div class="result-title ignored">NAIVE ASSUMPTION</div><div class="result-points" style="color:#ffaa00">0 Points</div><div class="result-narration">Attackers don't patch their own servers with your vulnerability data. They exploit yours.</div><button class="cyber-btn" onclick="retryLevel(4)">[ RETRY ]</button></div>
+<div class="center-screen" id="l4-wrong-d"><div class="result-title ignored">DANGEROUS COMPLACENCY</div><div class="result-points" style="color:#ffaa00">0 Points</div><div class="result-narration">"Curiosity" doesn't drive nation-state actors. Profit and disruption do.</div><button class="cyber-btn" onclick="retryLevel(4)">[ RETRY ]</button></div>
+
+<!-- LEVEL 5 -->
+<div class="screen" id="level5-screen">
+  <div class="case-header"><div class="case-number">CASE FILE #005</div><div class="case-title">"One Minute Incident"</div><div class="case-subtitle">Fast decision challenge. Combine everything you've learned.</div></div>
+  <div style="text-align:center;"><div class="warning-badge" style="border-color:var(--neon-yellow);color:var(--neon-yellow);background:rgba(255,204,0,0.1);"><span>⚡</span><span>RAPID RESPONSE REQUIRED</span></div></div>
+  <div style="text-align:center;margin:15px 0;color:#888;font-size:0.9rem;">Multiple indicators detected simultaneously. Prioritize your investigation order.</div>
+  <div class="challenge-grid" id="challenge-grid">
+    <div class="challenge-card" data-order="" onclick="selectChallenge(this,1)"><div class="challenge-icon">📧</div><div class="challenge-label">Suspicious Email</div><div class="challenge-desc">Unknown sender, urgent tone, .exe attachment</div></div>
+    <div class="challenge-card" data-order="" onclick="selectChallenge(this,2)"><div class="challenge-icon">🌐</div><div class="challenge-label">Unknown IP</div><div class="challenge-desc">185.220.101.42 — 5 failed logins</div></div>
+    <div class="challenge-card" data-order="" onclick="selectChallenge(this,3)"><div class="challenge-icon">👁️</div><div class="challenge-label">Social Media Clue</div><div class="challenge-desc">Public post revealing server deployment</div></div>
+  </div>
+  <div style="text-align:center;margin-top:20px;color:#888;font-size:0.85rem;">Click cards in priority order: <span style="color:var(--neon-green)">1st → 2nd → 3rd</span></div>
+  <div style="text-align:center;margin-top:25px;"><button class="cyber-btn green hidden" id="l5-submit-btn" onclick="submitL5()">[ SUBMIT PRIORITY ]</button></div>
+</div>
+
+<div class="center-screen" id="l5-result">
+  <div class="result-title success" id="l5-result-title">ANALYSIS COMPLETE</div>
+  <div class="points-popup" id="l5-points">+50 ANALYST POINTS</div>
+  <div class="result-narration" id="l5-narration">All skills combined. You prioritized threat intelligence correctly.</div>
+  <button class="cyber-btn green" onclick="showFinalEvaluation()">[ VIEW EVALUATION ]</button>
+</div>
+
+<!-- FINAL EVALUATION -->
+<div class="center-screen" id="final-eval">
+  <div class="glitch-text" style="font-family:'Rajdhani',sans-serif;font-size:2.2rem;font-weight:700;color:var(--neon-blue);text-shadow:0 0 30px var(--neon-blue);letter-spacing:3px;">MISSION COMPLETE</div>
+  <div class="final-rank" id="final-rank-title">THREAT INVESTIGATOR</div>
+  <div class="graffiti-text" id="final-graffiti">YOU THINK LIKE AN ANALYST</div>
+  <div class="level-stats" style="max-width:400px;">
+    <div class="stat-box"><div class="stat-value" id="final-score">0</div><div class="stat-label">Total Score</div></div>
+    <div class="stat-box"><div class="stat-value" id="final-cases">0/5</div><div class="stat-label">Cases Solved</div></div>
+    <div class="stat-box"><div class="stat-value" id="final-skills">0</div><div class="stat-label">Skills Unlocked</div></div>
+  </div>
+  <div style="margin:20px 0;"><div style="color:#888;font-size:0.85rem;margin-bottom:10px;text-transform:uppercase;letter-spacing:2px;">Skills Unlocked</div>
+    <div class="skills-list" id="final-skills-list">
+      <div class="skill-item locked" id="skill-collection"><span class="skill-check">✓</span> Threat Data Collection</div>
+      <div class="skill-item locked" id="skill-domain"><span class="skill-check">✓</span> Domain Analysis</div>
+      <div class="skill-item locked" id="skill-ip"><span class="skill-check">✓</span> IP Reputation</div>
+      <div class="skill-item locked" id="skill-osint"><span class="skill-check">✓</span> OSINT</div>
+      <div class="skill-item locked" id="skill-exposure"><span class="skill-check">✓</span> Exposure Monitoring</div>
+      <div class="skill-item locked" id="skill-intel"><span class="skill-check">✓</span> Threat Intelligence</div>
+    </div>
+  </div>
+  <div style="margin-top:30px;display:flex;gap:15px;justify-content:center;flex-wrap:wrap;">
+    <button class="cyber-btn" onclick="playAgain()">[ PLAY AGAIN ]</button>
+    
+  </div>
+</div>
+
+</div>
+
+<script src="assets/js/game.js"></script>
+</body>
+</html>
